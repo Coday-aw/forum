@@ -1,25 +1,15 @@
 import { db } from '@/firebase';
+import { Thread, User } from "@/lib/types";
 import { collection, getDocs, doc, getDoc, query, orderBy, limit } from 'firebase/firestore';
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
+import Skeleton from 'react-loading-skeleton'
+import 'react-loading-skeleton/dist/skeleton.css'
+
 
 type ThreadCategory = "THREAD" | "QNA";
 
-type User = {
-  id: string;
-  firstName: string;
-  userName: string;
-  password: string;
-};
 
-type Thread = {
-  id: string;
-  title: string;
-  category: ThreadCategory;
-  creationDate: string;
-  description: string;
-  creator: string; // UID of the creator
-};
 
 function ListThreads() {
   const [threads, setThreads] = useState<Thread[]>([]);
@@ -57,26 +47,34 @@ function ListThreads() {
       {threads.length > 0 ? (
         <ul>
           {threads.map(thread => (
-            <li key={thread.id} className='bg-white shadow-md rounded-lg p-6 mb-6'>
-              <div className='flex'>
-                <h2 className='font-semibold flex-1 dark:text-black'><Link href={`/threads/${thread.id}`}>{thread.title}</Link></h2>
-                <span className='bg-gray-700 text-white px-2 py-1 text-sm rounded-md'>{thread.category}</span>
-              </div>
-              <p className='text-sm text-gray-500'>
-                Posted by {users[thread.creator]?.firstName || 'Unknown'} at {new Intl.DateTimeFormat('sv-SE', {
-                  year: 'numeric',
-                  month: 'long',
-                  day: 'numeric',
-                  hour: '2-digit',
-                  minute: '2-digit',
-                  second: '2-digit'
-                }).format(new Date(thread.creationDate))}
-              </p>
+            <li key={thread.id}>
+              <Link href={`/threads/${thread.id}`}>
+              <div className='bg-white shadow-md rounded-lg p-6 mb-6 hover:opacity-65'>
+                <div className='flex'>
+                  <h2 className='font-semibold flex-1 dark:text-black text-lg'>
+                    {thread.title}
+                  </h2>
+                  <span className='bg-gray-700 text-white px-2 py-1 text-sm rounded-md'>{thread.category}</span>
+                </div>
+                <p className='text-sm text-gray-500'>
+                  Posted by {users[thread.creator]?.userName || 'Unknown'} at {new Intl.DateTimeFormat('sv-SE', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    second: '2-digit'
+                  }).format(new Date(thread.creationDate))}
+                </p>
+                </div>
+              </Link>
             </li>
           ))}
         </ul>
       ) : (
-        <p>Loading...</p>
+        <div>
+          <Skeleton count={5} height={100} />
+        </div>
       )}
     </div>
   );

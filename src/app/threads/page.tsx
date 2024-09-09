@@ -11,6 +11,7 @@ const AllThreadsPage = () => {
       </div>
       <AllThreads />
       <div className="p-5">
+        
         <div className="pt-10 mx-auto text-center">
           <a
             href="/create-thread"

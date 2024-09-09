@@ -54,15 +54,20 @@ const Page = () => {
 
     <main className="container mx-auto">
       <Header />
-      <div className="p-5">
+      <div className="p-10">
         
         <h1 className="text-2xl font-bold pb-10 text-center">Cooool forum</h1>
         
-        <ListThreads />
-        
-        <div className="pt-10 mx-auto text-center">
+        <div className="pt-2 mx-auto text-right">
           <a href="/create-thread" className="bg-black text-white py-3 px-5 rounded-md dark:text-black dark:bg-white hover:opacity-75">Create Thread</a>
         </div>
+
+        <ListThreads />
+
+        <div className="pt-10 mx-auto text-center">
+          <a href="/threads" className="bg-black text-white py-3 px-5 rounded-md dark:text-black dark:bg-white hover:opacity-75">View All Threads</a>
+        </div>
+        
 
 
       </div>
