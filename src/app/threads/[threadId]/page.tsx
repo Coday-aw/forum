@@ -235,7 +235,7 @@ const ThreadDetailPage: React.FC = () => {
   };
 
 
-
+// sort comments by date
   const sortedComments = comments.sort((a, b) => b.createdAt.toDate().getTime() - a.createdAt.toDate().getTime());
 
   return (
