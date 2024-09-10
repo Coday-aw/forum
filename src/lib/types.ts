@@ -20,7 +20,7 @@ export type ThreadTag = {
 export type QNAThread =  Thread & { //Type extension
 	category: "QNA";
 	isAnswered: boolean;
-	commentAnswerId?: number;
+	commentAnswerId?: string;
 }
 
 
