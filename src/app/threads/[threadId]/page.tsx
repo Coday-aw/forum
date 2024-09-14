@@ -382,19 +382,18 @@ const ThreadDetailPage: React.FC = () => {
                 <p className="text-sm text-gray-500 font-semibold pb-2">{usernames[comment.creator] || 'Unknown'}</p>
                 <p className="text-gray-500 text-xs">{comment.createdAt.toDate().toLocaleString()}</p>
               {
-                isLoggedIn ? (
+              
   thread?.category === 'QNA' && (
     <button  
     className={`px-2 rounded-sm mt-2 ${(thread as QNAThread)?.commentAnswerId === comment.id ? 'bg-green-400' : 'bg-slate-400'}`} 
     onClick={() => markAsAnswer(comment.id)}
-    disabled={(thread as QNAThread)?.commentAnswerId === comment.id}
+    disabled={(thread as QNAThread)?.commentAnswerId === comment.id || !isLoggedIn || locked}
   >
     {(thread as QNAThread)?.commentAnswerId === comment.id ? 'Answer' : 'Mark as Answer'}
   </button>
   )
-) : (
-  ""
-)
+
+
 }
               </div>
             ))
