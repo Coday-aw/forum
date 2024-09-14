@@ -9,6 +9,7 @@ import Header from '@/components/layout/Header';
 import { Thread, User, Comment, QNAThread} from '@/lib/types';
 import { FaEdit, FaLock, FaLockOpen } from 'react-icons/fa';
 import toast from 'react-hot-toast';
+import { log } from 'console';
 
 
 
@@ -57,7 +58,7 @@ const ThreadDetailPage: React.FC = () => {
         try {
           const threadDoc = await getDoc(doc(db, 'threads', threadId));
           if (threadDoc.exists()) {
-            const threadData = threadDoc.data() as Thread;
+            const threadData = threadDoc.data() as Thread 
             console.log(threadData);
             setThread(threadData);
             setLocked(threadData.locked);
@@ -154,6 +155,7 @@ const ThreadDetailPage: React.FC = () => {
     }
   };
 
+  // function to lock thread
   const lockThread = async () => {
     if (!user) {
       console.error('User is not logged in.');
@@ -177,6 +179,8 @@ const ThreadDetailPage: React.FC = () => {
       }
     }
   };
+
+  // function to unlock thread
   const unlockThread = async () => {
     if (!user) {
       console.error('User is not logged in.');
@@ -201,6 +205,7 @@ const ThreadDetailPage: React.FC = () => {
     }
   };
 
+  // function to mark a comment as answer
   const markAsAnswer = async (commentId: string) => {
     if (!user) {
       console.error('User is not logged in.');
@@ -237,6 +242,8 @@ const ThreadDetailPage: React.FC = () => {
     }
   };
 
+
+  // function to edit thread
   const handleEditThread = async () => {
     if (!user) {
       console.error('User is not logged in.');
@@ -275,7 +282,8 @@ const ThreadDetailPage: React.FC = () => {
   };
 
 
-// sort comments by date
+ 
+  // Sort comments by creation date
   const sortedComments = comments.sort((a, b) => b.createdAt.toDate().getTime() - a.createdAt.toDate().getTime());
 
   return (
@@ -374,6 +382,7 @@ const ThreadDetailPage: React.FC = () => {
                 <p className="text-sm text-gray-500 font-semibold pb-2">{usernames[comment.creator] || 'Unknown'}</p>
                 <p className="text-gray-500 text-xs">{comment.createdAt.toDate().toLocaleString()}</p>
               {
+                isLoggedIn ? (
   thread?.category === 'QNA' && (
     <button  
     className={`px-2 rounded-sm mt-2 ${(thread as QNAThread)?.commentAnswerId === comment.id ? 'bg-green-400' : 'bg-slate-400'}`} 
@@ -383,6 +392,9 @@ const ThreadDetailPage: React.FC = () => {
     {(thread as QNAThread)?.commentAnswerId === comment.id ? 'Answer' : 'Mark as Answer'}
   </button>
   )
+) : (
+  ""
+)
 }
               </div>
             ))
